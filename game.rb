@@ -19,11 +19,11 @@ puts 'Введите ваше имя:'
 def show_game_data
   puts "Игрок #{@player_name}:"
   puts "  Деньги: #{@player_money}$"
-  puts "  Карты: #{@player_cards.all}"
+  puts "  Карты: #{@player_cards.all} (#{@player_sum})"
   puts 'Диллер:'
   puts "  Деньги: #{@ai_money}$"
   puts "  Карты: #{@ai_cards.all_closed}"
-  puts "Банк: #{@bank_money}$"
+  puts "Банк игры: #{@bank_money}$"
 end
 
 #loop do
@@ -32,8 +32,10 @@ end
   @bank_money = 20
   
   
-  2.times { @player_cards.take_random_from(@desk) }
-  2.times { @ai_cards.take_random_from(@desk) }
+  2.times { @player_cards.add_random_from(@desk) }
+  2.times { @ai_cards.add_random_from(@desk) }
+  
+  @player_sum = @player_cards.sum
 
   show_game_data
 

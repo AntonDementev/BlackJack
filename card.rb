@@ -1,4 +1,6 @@
 class Card
+  attr_reader :value
+  
   @@suits = %w(♠ ♥ ♣ ♦)
   @@values = (2..10).to_a + %w(Валет Дама Король Туз)
   

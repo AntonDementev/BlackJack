@@ -31,7 +31,7 @@ class Cards
     @cards << card
   end
   
-  def take_random_from(stock)
+  def add_random_from(stock)
     add(stock.take_random_card)
   end
   
@@ -39,6 +39,32 @@ class Cards
     cards_str = ""
     @cards.each { |card| cards_str += card.open }
     cards_str
+  end
+  
+  def sum
+    sum = 0
+    aces_amount = 0
+    @cards.each do |card|
+      value = card.value
+      if value.is_a? Fixnum
+        sum += value
+      elsif value == 'Туз'
+        aces_amount += 1
+      else
+        sum += 10
+      end
+    end
+    
+    while aces_amount > 0 do
+      if sum + 11 > 21
+        sum += 1
+      else
+        sum += 11
+      end
+      aces_amount -= 1
+    end
+    
+    sum
   end
   
   def all_closed
