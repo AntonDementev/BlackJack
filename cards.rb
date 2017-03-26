@@ -13,14 +13,38 @@ class Cards
       puts card.open
     end
   end
-
+  
   def initialize
-    reset_to_fulldesk
+    empty
   end
   
-  def reset_to_fulldesk
+  def fulldesk
     @cards = []
     @@fulldesk.each { |card| @cards << card}
+  end
+  
+  def empty
+    @cards = []
+  end
+  
+  def add(card)
+    @cards << card
+  end
+  
+  def take_random_from(stock)
+    add(stock.take_random_card)
+  end
+  
+  def all
+    cards_str = ""
+    @cards.each { |card| cards_str += card.open }
+    cards_str
+  end
+  
+  def all_closed
+    output = ''
+    @cards.size.times { output += '[***]'}
+    output
   end
   
   def take_random_card
