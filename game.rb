@@ -83,7 +83,7 @@ def ai_step
   player_cards_amount = @player_cards.size
 
   puts
-  if (ai_sum < 16 && !ace && player_cards_amount > 2) || (ai_sum < 12 && !ace && player_cards_amount == 2) || (ai_sum < 21 && ace)
+  if (ai_sum < 16 && !ace && player_cards_amount > 2) || (ai_sum < 12 && !ace && player_cards_amount == 2) || (ai_sum < 18 && ace)
     @ai_cards.add_random_from(@desk)
     puts 'Диллер взял карту'
   else
