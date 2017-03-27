@@ -80,10 +80,67 @@ end
 def ai_step
   ai_sum = @ai_cards.sum
   ace = @player_cards.have_ace?
-  player_cards_amount = @player_cards.size
+  
+  if ai_sum == 21 || ai_sum == 20
+    ai_take_card(false)
+    return
+  end
+  
+  if ace
+    case ai_sum
+    when 19
+      ai_take_card_with_rand(5)
+    when 18
+      ai_take_card_with_rand(15)
+    when 17
+      ai_take_card_with_rand(45)
+    when 16
+      ai_take_card_with_rand(90)
+    else
+      ai_take_card(true) 
+    end
+  else
+    case ai_sum
+    when 19
+      ai_take_card(false)
+    when 18
+      ai_take_card_with_rand(5)
+    when 17
+      ai_take_card_with_rand(10)
+    when 16
+      ai_take_card_with_rand(25)
+    when 15
+      ai_take_card_with_rand(40)
+    when 14
+      ai_take_card_with_rand(60)
+    when 13
+      ai_take_card_with_rand(85)
+    when 12
+      ai_take_card_with_rand(95)
+    else
+      ai_take_card(true) 
+    end
+  end
+  
+end
 
+def ai_take_card_with_rand(probability)
+  #@fixrand нужно обновлять в начале игры и после того как игрок берёт карту
+  #эта переменная нужна, чтобы игрок не мог увеличивать вероятность взятия карты, пропуская ходы
+  if @fixrand < probability
+    ai_take_card(true)
+  else
+    ai_take_card(false)
+  end
+end
+
+def update_fixrand
+  @fixrand = rand(100)
+end
+
+def ai_take_card(do_take_card)
   puts
-  if (ai_sum < 16 && !ace && player_cards_amount > 2) || (ai_sum < 12 && !ace && player_cards_amount == 2) || (ai_sum < 19 && ace)
+  if do_take_card
     @ai_cards.add_random_from(@desk)
     puts 'Диллер взял карту'
   else
@@ -106,7 +163,9 @@ loop do
 
   2.times { @player_cards.add_random_from(@desk) }
   2.times { @ai_cards.add_random_from(@desk) }
-
+  
+  update_fixrand
+  
   loop do
     show_game_data
     show_command_list
@@ -116,6 +175,7 @@ loop do
       if @player_cards.size < CARD_MAX
         @player_cards.add_random_from(@desk)
         show_game_data
+        update_fixrand
       end
     when 3
       opencards
