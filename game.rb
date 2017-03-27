@@ -82,11 +82,19 @@ def ai_step
   ai_sum = @ai_cards.sum
   
   puts
-  if ai_sum < 15
+  if ai_sum < 21
     @ai_cards.add_random_from(@desk)
     puts "Диллер взял карту"
   else
     puts "Диллер пропустил ход"
+  end
+end
+
+def check_to_opencards
+  if (@player_cards.size == CARD_MAX && @ai_cards.size == CARD_MAX) || @player_cards.sum > 21 || @ai_cards.sum > 21
+    true
+  else
+    false
   end
 end
 
@@ -119,7 +127,10 @@ loop do
     ai_step if @ai_cards.size < CARD_MAX
     
     
-    #check_to_opencards (todo)
+    if check_to_opencards
+      opencards
+      break
+    end
      
   end
 

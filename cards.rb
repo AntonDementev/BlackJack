@@ -78,6 +78,10 @@ class Cards
     sum
   end
   
+  def have_ace?
+    
+  end
+  
   def all_closed
     output = ''
     @cards.size.times { output += '[***]'}
