@@ -2,6 +2,7 @@
 
 require_relative 'card'
 require_relative 'cards'
+CARD_MAX = 3
 
 @desk = Cards.new
 @desk.fulldesk
@@ -21,7 +22,7 @@ def show_game_data
   puts
   puts "Игрок #{@player_name}:"
   puts "  Деньги: #{@player_money}$"
-  puts "  Карты: #{@player_cards.all} (#{@player_sum})"
+  puts "  Карты: #{@player_cards.all} (#{@player_cards.sum})"
   puts 'Диллер:'
   puts "  Деньги: #{@ai_money}$"
   puts "  Карты: #{@ai_cards.all_closed}"
@@ -31,7 +32,7 @@ end
 def show_command_list
   puts
   puts "Введите номер действия:"
-  puts "1. Взять карту"
+  puts "1. Взять карту" if @player_cards.size < CARD_MAX
   puts "2. Пропустить ход"
   puts "3. Открыть карты " 
 end
@@ -39,26 +40,26 @@ end
 def opencards
   player_sum = @player_cards.sum
   ai_sum = @ai_cards.sum
-  @tie = false
+  tie = false
   if player_sum > 21 && ai_sum > 21
-    @tie = true
+    tie = true
   elsif player_sum > 21
-    @player_win = false
+    player_win = false
   elsif ai_sum > 21
-    @player_win = true
+    player_win = true
   elsif ai_sum > player_sum
-    @player_win = false
+    player_win = false
   elsif player_sum > ai_sum
-    @player_win = true
+    player_win = true
   elsif player_sum == ai_sum
-    @tie = true
+    tie = true
   end
   
   puts
-  if @tie
+  if tie
     puts "Ничья"
     puts "#{@bank_money}$ переходят в следующий раунд"
-  elsif @player_win
+  elsif player_win
     puts "Игрок #{@player_name} победил"
     @player_money += @bank_money
     @bank_money = 0
@@ -74,8 +75,19 @@ def opencards
   
   @player_cards.move_all_to(@desk)
   @ai_cards.move_all_to(@desk)
+
+end
+
+def ai_step
+  ai_sum = @ai_cards.sum
   
-  puts @desk.all
+  puts
+  if ai_sum < 15
+    @ai_cards.add_random_from(@desk)
+    puts "Диллер взял карту"
+  else
+    puts "Диллер пропустил ход"
+  end
 end
 
 loop do
@@ -89,18 +101,26 @@ loop do
   
   
   loop do
-    @player_sum = @player_cards.sum
     show_game_data
     show_command_list
     cmd = gets.to_i
     case cmd
       when 1
-        @player_cards.add_random_from(@desk)
-        show_game_data
+        if @player_cards.size < CARD_MAX
+          @player_cards.add_random_from(@desk)
+          show_game_data
+        end
       when 3
         opencards
         break
-    end 
+    end
+    
+    
+    ai_step if @ai_cards.size < CARD_MAX
+    
+    
+    #check_to_opencards (todo)
+     
   end
 
   puts "Хотите продолжить? 1. Да 2. Нет"

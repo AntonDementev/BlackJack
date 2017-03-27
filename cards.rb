@@ -27,6 +27,10 @@ class Cards
     @cards = []
   end
   
+  def size
+    @cards.size
+  end
+  
   def add(card)
     @cards << card
   end
