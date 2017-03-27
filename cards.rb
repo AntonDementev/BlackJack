@@ -35,6 +35,13 @@ class Cards
     add(stock.take_random_card)
   end
   
+  def move_all_to(stock)
+    @cards.each do |card|
+      stock.add(card)
+    end
+    @cards = []
+  end
+  
   def all
     cards_str = ""
     @cards.each { |card| cards_str += card.open }

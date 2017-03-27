@@ -72,8 +72,10 @@ def opencards
   puts "Карты диллера: #{@ai_cards.all}, очки: #{ai_sum}"
   puts "Игрок: #{@player_money}$; Диллер: #{@ai_money}$"
   
-  @player_cards.empty
-  @ai_cards.empty
+  @player_cards.move_all_to(@desk)
+  @ai_cards.move_all_to(@desk)
+  
+  puts @desk.all
 end
 
 loop do
@@ -84,6 +86,7 @@ loop do
   
   2.times { @player_cards.add_random_from(@desk) }
   2.times { @ai_cards.add_random_from(@desk) }
+  
   
   loop do
     @player_sum = @player_cards.sum
@@ -97,9 +100,7 @@ loop do
       when 3
         opencards
         break
-    end
-    
-    
+    end 
   end
 
   puts "Хотите продолжить? 1. Да 2. Нет"
