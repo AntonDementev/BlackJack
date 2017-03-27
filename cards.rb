@@ -79,7 +79,14 @@ class Cards
   end
   
   def have_ace?
-    
+    output = false
+    @cards.each do |card|
+      if card.value == 'Туз'
+        output = true
+        break
+      end
+    end
+    output
   end
   
   def all_closed
