@@ -79,7 +79,7 @@ end
 
 def ai_step
   ai_sum = @ai_cards.sum
-  ace = @player_cards.have_ace?
+  ace = @ai_cards.have_ace?
   
   if ai_sum == 21 || ai_sum == 20
     ai_take_card(false)
