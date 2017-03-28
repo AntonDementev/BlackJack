@@ -80,25 +80,25 @@ end
 def ai_step
   sum = @ai_cards.sum
   ace = @ai_cards.have_ace?
-  
+
   if ace
     logic = { above_limit: 19, below_limit: 16, 19 => 5, 18 => 15, 17 => 45, 16 => 90 }
   else
     logic = { above_limit: 18, below_limit: 12, 18 => 3, 17 => 8, 16 => 22, 15 => 40, 14 => 60, 13 => 85, 12 => 95 }
   end
-  
+
   if sum > logic[:above_limit]
     ai_take_card(false)
   elsif sum < logic[:below_limit]
     ai_take_card(true)
   else
     ai_take_card_with_rand(logic[sum])
-  end 
+  end
 end
 
 def ai_take_card_with_rand(probability)
-  #@fixrand нужно обновлять в начале игры и после того как игрок берёт карту
-  #эта переменная нужна, чтобы игрок не мог увеличивать вероятность взятия карты, пропуская ходы
+  # @fixrand нужно обновлять в начале игры и после того как игрок берёт карту
+  # эта переменная нужна, чтобы игрок не мог увеличивать вероятность взятия карты, пропуская ходы
   if @fixrand < probability
     ai_take_card(true)
   else
@@ -135,9 +135,9 @@ loop do
 
   2.times { @player_cards.add_random_from(@desk) }
   2.times { @ai_cards.add_random_from(@desk) }
-  
+
   update_fixrand
-  
+
   loop do
     show_game_data
     show_command_list
