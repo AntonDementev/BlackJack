@@ -3,7 +3,7 @@ class BlackJack
   CARD_MAX = 3
 
   def initialize
-    @player = Player.new
+    @player = PlayerHuman.new
     @ai = PlayerAI.new
     @bank_money = 0
     @desk = CardStock.new

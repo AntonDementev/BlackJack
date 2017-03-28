@@ -1,5 +1,5 @@
 class Player
-  attr_reader :cards, :name
+  attr_reader :cards
   attr_accessor :money
 
   @@start_money = 100
@@ -7,11 +7,6 @@ class Player
   def initialize
     @money = @@start_money
     @cards = CardStock.new
-  end
-
-  def ask_name
-    puts 'Введите ваше имя:'
-    @name = gets.chomp
   end
 
   def use_desk(desk)
